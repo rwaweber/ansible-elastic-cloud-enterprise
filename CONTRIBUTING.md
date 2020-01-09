@@ -4,7 +4,7 @@
 
 Ansible automatically determines on which distribution it is executing a playbook.
 
-In `tasks/system/main.yml` tasks and variables are dynamically included depending on the distribution of the host they are run on. 
+In `tasks/system/main.yml` tasks and variables are dynamically included depending on the distribution of the host they are run on.
 
 ```yaml
 - name: Include OS specific vars
@@ -33,7 +33,7 @@ Inside this file at least the following needs to be specified (example from `var
 ```yaml
 ---
 # The following variables are used to populate templates/docker18.09.conf for the sysctl configuration
-docker_unit_after: "network.target docker.socket" # Goes into "[Unit] After=", e.g. 
+docker_unit_after: "network.target docker.socket" # Goes into "[Unit] After=", e.g.
 docker_storage_driver: overlay # The storage driver to use with docker
 
 # The command to be run to update the bootloader
@@ -42,11 +42,11 @@ bootloader_update_command: # e.g. update-bootloader on SLES
 # The docker version mapping is used to easily support multiple docker versions
 docker_version_map:
   # The version of docker to be installed, this value is referenced in defaults/main.yml (e.g. docker_version: "18.09")
-  "18.09": 
+  "18.09":
     # The package name to be installed for this version
-    package: docker-18.09.1_ce 
+    package: docker-18.09.1_ce
     # The repository that needs to be added for the docker package
-    repo: https://download.opensuse.org/repositories/Virtualization:containers/SLE_12_SP3/ 
+    repo: https://download.opensuse.org/repositories/Virtualization:containers/SLE_12_SP3/
     name: Virtualization:containers # The name of the repository, if one is required
     keys:
       # The url from where to fetch the key for the repositry

@@ -38,10 +38,10 @@ At least three hosts are needed for this example, a primary, a secondary, and te
   - Create required users and set limits for them
   - Create a xfs partition and configure it
   - Configure docker
-  
+
 More information about the prerequisites can be found in the following [page](https://www.elastic.co/guide/en/cloud-enterprise/current/ece-prereqs.html).
 - On the primary host:
-  - Make the primary installation of Elastic Cloud Enterprise 
+  - Make the primary installation of Elastic Cloud Enterprise
 - On the secondary host:
   - Install Elastic Cloud Enterprise to join the existing installation with the given ece_roles
 - On the tertiary host:
@@ -49,15 +49,15 @@ More information about the prerequisites can be found in the following [page](ht
 
 There is a set of variables and tags available to further define the behaviour of this role, or exclude certain steps.
 
-For example in many cases you might want to install Elastic Coud Enterprise without running any of the potentially destructive system prerequisites like removing existing docker installations and setting up a filesystem. This can be done by specifying `--skip-tags destructive` on your ansible run - or if you want to only install Elastic Coud Enterprise without any system tasks before `--skip-tags system`.
+For example in many cases you might want to install Elastic Cloud Enterprise without running any of the potentially destructive system prerequisites like removing existing docker installations and setting up a filesystem. This can be done by specifying `--skip-tags destructive` on your ansible run - or if you want to only install Elastic Cloud Enterprise without any system tasks before `--skip-tags system`.
 
 
 ## Role Variables
 
-The following variables are avaible:
+The following variables are available:
 
 - `device_name`: The name of the device on which the xfs partition should be created
-    - **Required** unless filestystem tasks are skipped via tags
+    - **Required** unless filesystem tasks are skipped via tags
     - Default: xvdb
 - `ece_primary`: Whether this host should be the primary (first) host where Elastic Cloud Enterprise is installed
     - **Required** on a single host
@@ -66,27 +66,27 @@ The following variables are avaible:
 - `availability_zone`: The availability zone this group of hosts belongs to
 - `ece_version`: The Elastic Cloud Enterprise version that should get installed
     - Default: 2.2.0
-- `ece_docker_registry`: The docker registry from where to pull the Elastic Cloud Enterprise images. This is only relevant if you have a private mirror 
+- `ece_docker_registry`: The docker registry from where to pull the Elastic Cloud Enterprise images. This is only relevant if you have a private mirror
     - Default: docker.elastic.co
 - `ece_docker_repository`: The docker repository in the given registry. This is only relevant if you have a private mirror
     - Default: cloud-enterprise
 - `ece_installer_url`: The location of the installation script. Can be a local file for offline installation.
     - Default: `https://download.elastic.co/cloud/elastic-cloud-enterprise.sh`
-- `docker_config`: If specified as a path to a docker config, copies it to the target hosts  
-- [Supported Docker Versions](https://elastic.co/en/cloud-enterprise/current/ece-prereqs-software.html)  
-  - `docker_version`: Supported version on CentOS 7, Ubuntu (14.04LTS, 16.04LTS) and SLES 12 is 18.09, Supported version on RHEL7 is 1.13  
+- `docker_config`: If specified as a path to a docker config, copies it to the target hosts
+- [Supported Docker Versions](https://elastic.co/en/cloud-enterprise/current/ece-prereqs-software.html)
+  - `docker_version`: Supported version on CentOS 7, Ubuntu (14.04LTS, 16.04LTS) and SLES 12 is 18.09, Supported version on RHEL7 is 1.13
 - `force_xfc`: By default if the `lxc` xfc volume already exists, the `setup_xfc` step is skipped, if this is set to true, creation of the volume is forced
     - Default: false
 - `elastic_authorized_keys_file`: Defines a local path to an `authorized_keys` file that should be copied to the `elastic` user. If not set, the keys from the default user that is used with ansible will be copied over.
 - `memory`: Defines the JVM heap size to be used for different services running in ece. See https://www.elastic.co/guide/en/cloud-enterprise/current/ece-heap.html for example values and [defaults/main.yml](defaults/main.yml) for the default values.
 
 - `fetch_diagnostics`: Determines if Elastic Cloud Enterprise Support Diagnostics should be downloaded and executed
-- `ece_supportdiagnostics_url`: THe location of the diagnostics tool. Can be a local file for offline installation.
+- `ece_supportdiagnostics_url`: The location of the diagnostics tool. Can be a local file for offline installation.
     - Default: `https://github.com/elastic/ece-support-diagnostics/archive/v1.1.tar.gz`
-- `ece_supportdiagnostics_result_path`: The localtion where to store the diagnostic bundles on ansible host.
+- `ece_supportdiagnostics_result_path`: The location where to store the diagnostic bundles on ansible host.
     - Default: `/tmp/ece-support-diagnostics`
 
-If more hosts should join an Elastic Cloud Enterpise installation when a primary host was already installed previously there are two more variables that are required:
+If more hosts should join an Elastic Cloud Enterprise installation when a primary host was already installed previously there are two more variables that are required:
 - `primary_hostname`: The (reachable) hostname of the primary host
 - `adminconsole_root_password`: The adminconsole root password
 
@@ -95,8 +95,8 @@ If more hosts should join an Elastic Cloud Enterpise installation when a primary
 
 The following tags are available to limit the execution, due to the nature of tags in ansible you should only use `--skip-tags` with these to skip certain parts instead of using `--tags` to limit the execution.
 
-- `system` Determines the execution of all tasks that setup the system (everything except the actual installation of Elastic Cloud Enterprise) 
-    - `setup_filesystem` If system tasks are executed, this determines if the filesystem tasks should get executed - includes creating the partitions for xfs and mount points 
+- `system` Determines the execution of all tasks that setup the system (everything except the actual installation of Elastic Cloud Enterprise)
+    - `setup_filesystem` If system tasks are executed, this determines if the filesystem tasks should get executed - includes creating the partitions for xfs and mount points
     - `install_docker` If system tasks are executed, this determines if existing docker packages should get removed and the current, supported version should get installed and configured
 - `destructive` This tag indicates whether a task is potentially destructive, like removing packages or doing filesystem partitioning
 - `ece` Determines if Elastic Cloud Enterprise should get installed
